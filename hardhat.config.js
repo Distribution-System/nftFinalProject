@@ -6,10 +6,10 @@ module.exports = {
   networks: {
     //   hardhat: {},
 
-    polygon_mumbai: {
+    sepolia: {
       // chainId: 80001,
-      url: process.env.POLYGON_MUMBAI,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
+      url: "https://sepolia.infura.io/v3/752155e79a924e21b1477a5502103ca8",
+      accounts: ["5abdaa9d1f6a5a45eb6e6d23c35127c0982d59ddd1660daa1a92cf6cfbbd0eb3"],
     },
   },
 };
