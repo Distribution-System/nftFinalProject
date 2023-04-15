@@ -7,18 +7,17 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 
 // const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 
-const projectId = process.env.PROJECT_ID;
-const projectSecretKey = process.env.PROJECT_SECRET_KEY;
+const projectId = "2ONf3PP6K8sYU7ciZfrtPES3iS3";
+const projectSecretKey = "7eaa2be07a463801ac87e339ee63c652";
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
   "base64"
 )}`;
 
-const subdomain = process.env.SUBDOMAIN;
 
 const client = ipfsHttpClient({
   host: "infura-ipfs.io",
-  port: 5001,
   protocol: "https",
+  port: 5001,
   headers: {
     authorization: auth,
   },
@@ -66,7 +65,7 @@ const connectToTransferFunds = async () => {
     // const connection = await web3Modal.connect();
     // const provider = new ethers.providers.Web3Provider(connection);
     const provider = new ethers.providers.JsonRpcProvider(
-      "https://goerli.infura.io/v3/22e93319c7504d95a136f7c2c31714b4"
+      "https://goerli.infura.io/v3/752155e79a924e21b1477a5502103ca8"
     );
     const signer = provider.getSigner();
     const contract = fetchTransferFundsContract(signer);
@@ -142,8 +141,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const uploadToIPFS = async (file) => {
     try {
       const added = await client.add({ content: file });
-      const url = `${subdomain}/ipfs/${added.path}`;
+      const url = `https://nft-distribute.infura-ipfs.io/ipfs/${added.path}`;
+      console.log(url)
       return url;
+
     } catch (error) {
       setError("Error Uploading to IPFS");
       setOpenError(true);
@@ -161,6 +162,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const added = await client.add(data);
 
       const url = `https://infura-ipfs.io/ipfs/${added.path}`;
+      console.log(url)
 
       await createSale(url, price);
       router.push("/searchPage");
@@ -177,8 +179,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
 
       const contract = await connectingWithSmartContract();
+      console.log(contract)
 
       const listingPrice = await contract.getListingPrice();
+      console.log(listingPrice)
 
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
@@ -192,6 +196,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       console.log(transaction);
     } catch (error) {
       setError("error while creating sale");
+      console.log("error while creating sale")
       setOpenError(true);
       console.log(error);
     }
@@ -202,47 +207,50 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const fetchNFTs = async () => {
     try {
       if (currentAccount) {
-        const provider = new ethers.providers.JsonRpcProvider(
-          process.env.POLYGON_MUMBAI
-        );
+        const provider = new ethers.providers.JsonRpcProvider();
         console.log(provider);
         const contract = fetchContract(provider);
 
         const data = await contract.fetchMarketItems();
+        console.log(data)
 
         const items = await Promise.all(
           data.map(
             async ({ tokenId, seller, owner, price: unformattedPrice }) => {
               const tokenURI = await contract.tokenURI(tokenId);
+              
+              if(tokenURI.includes("nft-distribute")){
 
-              const {
-                data: { image, name, description },
-              } = await axios.get(tokenURI);
-              const price = ethers.utils.formatUnits(
-                unformattedPrice.toString(),
-                "ether"
-              );
+                console.log(tokenURI)
 
-              return {
-                price,
-                tokenId: tokenId.toNumber(),
-                seller,
-                owner,
-                image,
-                name,
-                description,
-                tokenURI,
-              };
+                const {
+                  data: { image, name, description },
+                } = await axios.get(tokenURI);
+                const price = ethers.utils.formatUnits(
+                  unformattedPrice.toString(),
+                  "ether"
+                );
+
+                return {
+                  price,
+                  tokenId: tokenId.toNumber(),
+                  seller,
+                  owner,
+                  image,
+                  name,
+                  description,
+                  tokenURI,
+                };
+              }
             }
           )
         );
 
         console.log(items);
-        return items;
+
+        return items.filter(item => item !== undefined);
       }
     } catch (error) {
-      setError("Error while fetching NFTS");
-      setOpenError(true);
       console.log(error);
     }
   };
@@ -268,6 +276,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
           data.map(
             async ({ tokenId, seller, owner, price: unformattedPrice }) => {
               const tokenURI = await contract.tokenURI(tokenId);
+              if(tokenURI.includes("nft-distribute")) {
               const {
                 data: { image, name, description },
               } = await axios.get(tokenURI);
@@ -287,9 +296,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
                 tokenURI,
               };
             }
+          }
           )
         );
-        return items;
+        return items.filter(item => item !== undefined);
       }
     } catch (error) {
       setError("Error while fetching listed NFTs");
