@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
@@ -8,6 +8,10 @@ import Style from "./FollowerTabCard.module.css";
 import images from "../../../img";
 const FollowerTabCard = ({ i, el }) => {
   const [following, setFollowing] = useState(false);
+
+  useEffect(()=>{
+    console.log('create', i, el)
+  }, [])
 
   const followMe = () => {
     if (!following) {
