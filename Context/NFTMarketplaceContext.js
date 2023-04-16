@@ -16,8 +16,8 @@ const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
 
 const client = ipfsHttpClient({
   host: "infura-ipfs.io",
-  protocol: "https",
   port: 5001,
+  protocol: "https",
   headers: {
     authorization: auth,
   },
@@ -65,7 +65,7 @@ const connectToTransferFunds = async () => {
     // const connection = await web3Modal.connect();
     // const provider = new ethers.providers.Web3Provider(connection);
     const provider = new ethers.providers.JsonRpcProvider(
-      "https://goerli.infura.io/v3/752155e79a924e21b1477a5502103ca8"
+      "https://sepolia.infura.io/v3/752155e79a924e21b1477a5502103ca8"
     );
     const signer = provider.getSigner();
     const contract = fetchTransferFundsContract(signer);
@@ -161,7 +161,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
     try {
       const added = await client.add(data);
 
-      const url = `https://infura-ipfs.io/ipfs/${added.path}`;
+      const url = `https://nft-distribute.infura-ipfs.io/ipfs/${added.path}`;
       console.log(url)
 
       await createSale(url, price);
@@ -207,7 +207,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const fetchNFTs = async () => {
     try {
       if (currentAccount) {
-        const provider = new ethers.providers.JsonRpcProvider();
+        const provider = new ethers.providers.JsonRpcProvider(
+          "https://sepolia.infura.io/v3/752155e79a924e21b1477a5502103ca8"
+        );
         console.log(provider);
         const contract = fetchContract(provider);
 
@@ -218,6 +220,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
           data.map(
             async ({ tokenId, seller, owner, price: unformattedPrice }) => {
               const tokenURI = await contract.tokenURI(tokenId);
+              console.log(tokenURI)
               
               if(tokenURI.includes("nft-distribute")){
 
@@ -251,6 +254,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
         return items.filter(item => item !== undefined);
       }
     } catch (error) {
+      setError("Error while fetching NFTS");
+      setOpenError(true);
       console.log(error);
     }
   };

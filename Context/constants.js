@@ -1,12 +1,10 @@
-///0x5FbDB2315678afecb367f032d93F642f64180aa3
-//0x5FbDB2315678afecb367f032d93F642f64180aa3
 
 import nftMarketplace from "./NFTMarketplace.json";
 import transferFunds from "./TransferFunds.json";
 
 //NFT MARKETPLACE
 export const NFTMarketplaceAddress =
-  "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  "0x26eaefEA9e6233F6d975c2fDA9460F740C3457fF";
 export const NFTMarketplaceABI = nftMarketplace.abi;
 
 //TRANSFER FUNDS

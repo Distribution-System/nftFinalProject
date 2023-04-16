@@ -39,9 +39,10 @@ const Home = () => {
   useEffect(() => {
     if (currentAccount) {
       fetchNFTs().then((items) => {
+        console.log("item",items);
         setNfts(items?.reverse());
         setNftsCopy(items);
-        console.log(nfts);
+        console.log("itemnft",nfts);
       });
     }
   }, []);
@@ -49,7 +50,7 @@ const Home = () => {
   //CREATOR LIST
 
   const creators = getTopCreators(nfts);
-  // console.log(creators);
+   console.log("c",creators);
 
   return (
     <div className={Style.homePage}>
@@ -74,6 +75,7 @@ const Home = () => {
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
       <Filter />
+      <p>nft</p>
       {nfts.length == 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
 
       <Title
