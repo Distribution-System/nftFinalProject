@@ -50,7 +50,7 @@ const connectingWithSmartContract = async () => {
     const contract = fetchContract(signer);
     return contract;
   } catch (error) {
-    console.log("Something went wrong while connecting with contract", error);
+    console.log("Hãy kết nối với ví", error);
   }
 };
 
@@ -101,7 +101,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         setCurrentAccount(accounts[0]);
         // console.log(accounts[0]);
       } else {
-        setError("No Account Found");
+        setError("Không tìm thấy tài khoản");
         setOpenError(true);
       }
 
@@ -110,7 +110,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const bal = ethers.utils.formatEther(getBalance);
       setAccountBalance(bal);
     } catch (error) {
-      setError("Something wrong while connecting to wallet");
+      setError("Hãy kết nối với ví");
       setOpenError(true);
     }
   };
@@ -132,7 +132,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       setCurrentAccount(accounts[0]);
       // window.location.reload();
     } catch (error) {
-      setError("Error while connecting to wallet");
+      setError("Hãy kết nối với ví");
       setOpenError(true);
     }
   };
@@ -146,7 +146,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       return url;
 
     } catch (error) {
-      setError("Error Uploading to IPFS");
+      setError("Lôi khi upload ảnh lên IPFS");
       setOpenError(true);
     }
   };
@@ -167,8 +167,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
       await createSale(url, price);
       router.push("/searchPage");
     } catch (error) {
-      setError("Error while creating NFT");
+      setError("Lỗi khi tạo nft");
       setOpenError(true);
+      console.log(error)
     }
   };
 
@@ -195,7 +196,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       await transaction.wait();
       console.log(transaction);
     } catch (error) {
-      setError("error while creating sale");
+      setError("Lỗi khi tạo đơn giá của nft");
       console.log("error while creating sale")
       setOpenError(true);
       console.log(error);
@@ -254,7 +255,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         return items.filter(item => item !== undefined);
       }
     } catch (error) {
-      setError("Error while fetching NFTS");
+      setError("Không thể hiển thị danh sách NFT");
       setOpenError(true);
       console.log(error);
     }
@@ -307,7 +308,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         return items.filter(item => item !== undefined);
       }
     } catch (error) {
-      setError("Error while fetching listed NFTs");
+      setError("Không thể hiển thị NFT của bạn");
       setOpenError(true);
     }
   };
@@ -329,7 +330,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       await transaction.wait();
       router.push("/author");
     } catch (error) {
-      setError("Error While buying NFT");
+      setError("Không thể mua NFT");
       setOpenError(true);
     }
   };
