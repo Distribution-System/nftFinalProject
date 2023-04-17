@@ -110,14 +110,14 @@ const NavBar = () => {
           </div>
 
           {/* HELP CENTER MENU */}
-          <div className={Style.navbar_container_right_help}>
+          {/* <div className={Style.navbar_container_right_help}>
             <p onClick={(e) => openMenu(e)}>Help Center</p>
             {help && (
               <div className={Style.navbar_container_right_help_box}>
                 <HelpCenter />
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* NOTIFICATION */}
           <div className={Style.navbar_container_right_notify}>

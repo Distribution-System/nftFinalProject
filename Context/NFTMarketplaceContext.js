@@ -97,9 +97,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
         method: "eth_accounts",
       });
 
+
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
-        // console.log(accounts[0]);
       } else {
         setError("Không tìm thấy tài khoản");
         setOpenError(true);
@@ -152,11 +152,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   //---CREATENFT FUNCTION
-  const createNFT = async (name, price, image, description, router) => {
-    if (!name || !description || !price || !image)
+  const createNFT = async (name, price, image, description, category, router) => {
+    if (!name || !description || !price || !image || !category)
       return setError("Data Is Missing"), setOpenError(true);
 
-    const data = JSON.stringify({ name, description, image });
+    const data = JSON.stringify({ name, description, image,category });
 
     try {
       const added = await client.add(data);
@@ -228,8 +228,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
                 console.log(tokenURI)
 
                 const {
-                  data: { image, name, description },
+                  data: { image, name, description, category },
                 } = await axios.get(tokenURI);
+                console.log(data)
                 const price = ethers.utils.formatUnits(
                   unformattedPrice.toString(),
                   "ether"
@@ -243,6 +244,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
                   image,
                   name,
                   description,
+                  category,
                   tokenURI,
                 };
               }
@@ -284,7 +286,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
               const tokenURI = await contract.tokenURI(tokenId);
               if(tokenURI.includes("nft-distribute")) {
               const {
-                data: { image, name, description },
+                data: { image, name, description, category },
               } = await axios.get(tokenURI);
               const price = ethers.utils.formatUnits(
                 unformattedPrice.toString(),
@@ -299,6 +301,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
                 image,
                 name,
                 description,
+                category,
                 tokenURI,
               };
             }

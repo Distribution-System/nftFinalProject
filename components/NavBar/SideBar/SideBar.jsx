@@ -61,6 +61,10 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
       name: "Blog",
       link: "blog",
     },
+    {
+      name: "TransferFunds",
+      link: "transferFunds",
+    },
   ];
   //------HELP CNTEER
   const helpCenter = [
@@ -84,6 +88,7 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
       name: "Subscription",
       link: "subscription",
     },
+
   ];
 
   const openDiscoverMenu = () => {

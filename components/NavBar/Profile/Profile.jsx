@@ -10,6 +10,7 @@ import Style from "./Profile.module.css";
 import images from "../../../img";
 
 const Profile = ({ currentAccount }) => {
+  console.log(currentAccount)
   return (
     <div className={Style.profile}>
       <div className={Style.profile_account}>

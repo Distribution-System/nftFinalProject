@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaFilter,
   FaAngleDown,
@@ -16,11 +16,12 @@ import { TiTick } from "react-icons/ti";
 //INTERNAL IMPORT
 import Style from "./Filter.module.css";
 
-const Filter = () => {
+const Filter = ({ onHandleSearchCategory, onClearSearch }) => {
   const [filter, setFilter] = useState(true);
   const [image, setImage] = useState(true);
   const [video, setVideo] = useState(true);
   const [music, setMusic] = useState(true);
+  const [search, setSearch] = useState("");
 
   //FUNCTION SECTION
   const openFilter = () => {
@@ -55,15 +56,23 @@ const Filter = () => {
     }
   };
 
+  useEffect(() => {
+    if (search) {
+      onHandleSearchCategory(search);
+    } else {
+      onClearSearch();
+    }
+  }, [search]);
+
   return (
     <div className={Style.filter}>
       <div className={Style.filter_box}>
         <div className={Style.filter_box_left}>
           <button onClick={() => {}}>NFTs</button>
-          <button onClick={() => {}}>Arts</button>
-          <button onClick={() => {}}>Musics</button>
-          <button onClick={() => {}}>Sports</button>
-          <button onClick={() => {}}>Photography</button>
+          <button onClick={() => setSearch("Arts")}>Arts</button>
+          <button onClick={() => {onHandleSearchCategory("Music")}}>Musics</button>
+          <button onClick={() => {onHandleSearchCategory("Sports")}}>Sports</button>
+          <button onClick={() => {onHandleSearchCategory("Photography")}}>Photography</button>
         </div>
 
         <div className={Style.filter_box_right}>

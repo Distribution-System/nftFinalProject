@@ -219,11 +219,12 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
                 price,
                 image,
                 description,
+                category,
                 router
-                // website,
+                // website
                 // royalties,
                 // fileSize,
-                // category,
+        
                 // properties
               )
             }
