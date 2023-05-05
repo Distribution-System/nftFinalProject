@@ -30,7 +30,7 @@ const transferFunds = () => {
 
   useEffect(() => {
     getAllTransactions();
-    console.log(getAllTransactions())
+    console.log(getAllTransactions());
   });
   return (
     <div className={Style.transfer}>

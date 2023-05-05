@@ -104,7 +104,7 @@ const NFTDescription = ({ nft }) => {
   };
 
   //SMART CONTRACT DATA
-  const { buyNFT, currentAccount } = useContext(NFTMarketplaceContext);
+  const { buyNFT, unSellNFT, currentAccount } = useContext(NFTMarketplaceContext);
 
   return (
     <div className={Style.NFTDescription}>
@@ -262,6 +262,7 @@ const NFTDescription = ({ nft }) => {
               {currentAccount == nft.seller?.toLowerCase() ? (
                 <p>You can't buy your own NFT</p>
               ) : currentAccount == nft.owner.toLowerCase() ? (
+                <>
                 <Button
                   icon=<FaWallet />
                   btnName="List on Marketplace"
@@ -272,6 +273,14 @@ const NFTDescription = ({ nft }) => {
                   }
                   classStyle={Style.button}
                 />
+
+                <Button
+                  icon=<FaWallet />
+                  btnName="UnSell"
+                  handleClick={() => unSellNFT(nft)}
+                  classStyle={Style.button}
+                />
+                </> 
               ) : (
                 <Button
                   icon=<FaWallet />
@@ -287,6 +296,13 @@ const NFTDescription = ({ nft }) => {
                 handleClick={() => {}}
                 classStyle={Style.button}
               />
+
+              <Button
+                  icon=<FaWallet />
+                  btnName="UnSell"
+                  handleClick={() => unSellNFT(nft)}
+                  classStyle={Style.button}
+                />
             </div>
 
             <div className={Style.NFTDescription_box_profile_biding_box_tabs}>

@@ -13,7 +13,6 @@ const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
   "base64"
 )}`;
 
-
 const client = ipfsHttpClient({
   host: "infura-ipfs.io",
   port: 5001,
@@ -31,12 +30,14 @@ import {
   transferFundsABI,
 } from "./constants";
 
+// const signer = provider.getSigner("0x78aF1950C7AB433DbA3775aB9529757a510b61Ba");
+
 //---FETCHING SMART CONTRACT
 const fetchContract = (signerOrProvider) =>
   new ethers.Contract(
     NFTMarketplaceAddress,
     NFTMarketplaceABI,
-    signerOrProvider
+    signer
   );
 
 //---CONNECTING WITH SMART CONTRACT
@@ -97,7 +98,6 @@ export const NFTMarketplaceProvider = ({ children }) => {
         method: "eth_accounts",
       });
 
-
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
       } else {
@@ -142,9 +142,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
     try {
       const added = await client.add({ content: file });
       const url = `https://nft-distribute.infura-ipfs.io/ipfs/${added.path}`;
-      console.log(url)
+      console.log(url);
       return url;
-
     } catch (error) {
       setError("Lôi khi upload ảnh lên IPFS");
       setOpenError(true);
@@ -152,24 +151,31 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   //---CREATENFT FUNCTION
-  const createNFT = async (name, price, image, description, category, router) => {
+  const createNFT = async (
+    name,
+    price,
+    image,
+    description,
+    category,
+    router
+  ) => {
     if (!name || !description || !price || !image || !category)
       return setError("Data Is Missing"), setOpenError(true);
 
-    const data = JSON.stringify({ name, description, image,category });
+    const data = JSON.stringify({ name, description, image, category });
 
     try {
       const added = await client.add(data);
 
       const url = `https://nft-distribute.infura-ipfs.io/ipfs/${added.path}`;
-      console.log(url)
+      console.log(url);
 
       await createSale(url, price);
       router.push("/searchPage");
     } catch (error) {
       setError("Lỗi khi tạo nft");
       setOpenError(true);
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -180,10 +186,10 @@ export const NFTMarketplaceProvider = ({ children }) => {
       const price = ethers.utils.parseUnits(formInputPrice, "ether");
 
       const contract = await connectingWithSmartContract();
-      console.log(contract)
+      console.log(contract);
 
       const listingPrice = await contract.getListingPrice();
-      console.log(listingPrice)
+      console.log(listingPrice);
 
       const transaction = !isReselling
         ? await contract.createToken(url, price, {
@@ -197,7 +203,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       console.log(transaction);
     } catch (error) {
       setError("Lỗi khi tạo đơn giá của nft");
-      console.log("error while creating sale")
+      console.log("error while creating sale");
       setOpenError(true);
       console.log(error);
     }
@@ -215,22 +221,21 @@ export const NFTMarketplaceProvider = ({ children }) => {
         const contract = fetchContract(provider);
 
         const data = await contract.fetchMarketItems();
-        console.log(data)
+        console.log(data);
 
         const items = await Promise.all(
           data.map(
             async ({ tokenId, seller, owner, price: unformattedPrice }) => {
               const tokenURI = await contract.tokenURI(tokenId);
-              console.log(tokenURI)
-              
-              if(tokenURI.includes("nft-distribute")){
+              console.log(tokenURI);
 
-                console.log(tokenURI)
+              if (tokenURI.includes("nft-distribute")) {
+                console.log(tokenURI);
 
                 const {
                   data: { image, name, description, category },
                 } = await axios.get(tokenURI);
-                console.log(data)
+                console.log(data);
                 const price = ethers.utils.formatUnits(
                   unformattedPrice.toString(),
                   "ether"
@@ -254,7 +259,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
         console.log(items);
 
-        return items.filter(item => item !== undefined);
+        return items.filter((item) => item !== undefined);
       }
     } catch (error) {
       setError("Không thể hiển thị danh sách NFT");
@@ -284,31 +289,33 @@ export const NFTMarketplaceProvider = ({ children }) => {
           data.map(
             async ({ tokenId, seller, owner, price: unformattedPrice }) => {
               const tokenURI = await contract.tokenURI(tokenId);
-              if(tokenURI.includes("nft-distribute")) {
-              const {
-                data: { image, name, description, category },
-              } = await axios.get(tokenURI);
-              const price = ethers.utils.formatUnits(
-                unformattedPrice.toString(),
-                "ether"
-              );
+              if (tokenURI.includes("nft-distribute")) {
+                const {
+                  data: { image, name, description, category },
+                } = await axios.get(tokenURI);
+                const price = ethers.utils.formatUnits(
+                  unformattedPrice.toString(),
+                  "ether"
+                );
 
-              return {
-                price,
-                tokenId: tokenId.toNumber(),
-                seller,
-                owner,
-                image,
-                name,
-                description,
-                category,
-                tokenURI,
-              };
+                console.log(await axios.get(tokenURI));
+
+                return {
+                  price,
+                  tokenId: tokenId.toNumber(),
+                  seller,
+                  owner,
+                  image,
+                  name,
+                  description,
+                  category,
+                  tokenURI,
+                };
+              }
             }
-          }
           )
         );
-        return items.filter(item => item !== undefined);
+        return items.filter((item) => item !== undefined);
       }
     } catch (error) {
       setError("Không thể hiển thị NFT của bạn");
@@ -338,6 +345,23 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
+  //---BUY NFTs FUNCTION
+  const unSellNFT = async (nft) => {
+    try {
+      const contract = await connectingWithSmartContract();
+      console.log(nft);
+      const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+
+      const transaction = await contract.unsellToken(nft.tokenId, price);
+
+      await transaction.wait();
+      router.push("/author");
+    } catch (error) {
+      setError("Không thể ngung ban");
+      console.log(error);
+      router.push("/author");
+    }
+  };
   //------------------------------------------------------------------
   //---TRANSFER FUNDS
   const [transactionCount, setTransactionCount] = useState("");
@@ -348,9 +372,12 @@ export const NFTMarketplaceProvider = ({ children }) => {
     try {
       if (currentAccount) {
         const contract = await connectToTransferFunds();
+        await window.ethereum.enable()
         console.log(address, ether, message);
 
         const unFormatedPrice = ethers.utils.parseEther(ether);
+        console.log(unFormatedPrice);
+
         // //FIRST METHOD TO TRANSFER FUND
         await ethereum.request({
           method: "eth_sendTransaction",
@@ -363,25 +390,33 @@ export const NFTMarketplaceProvider = ({ children }) => {
             },
           ],
         });
+        console.log(1);
+
+
 
         const transaction = await contract.addDataToBlockchain(
           address,
           unFormatedPrice,
           message
         );
+      
 
         console.log(transaction);
 
         setLoading(true);
         transaction.wait();
         setLoading(false);
+        console.log(transaction);
 
         const transactionCount = await contract.getTransactionCount();
+        console.log(transactionCount);
         setTransactionCount(transactionCount.toNumber());
+        console.log("Thành công")
         window.location.reload();
       }
     } catch (error) {
       console.log(error);
+      setError("Giao dịch thành công vui lòng kiểm tra ví");
     }
   };
 
@@ -402,6 +437,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
           message: transaction.message,
           amount: parseInt(transaction.amount._hex) / 10 ** 18,
         }));
+        console.log(readTransaction)
 
         setTransactions(readTransaction);
         console.log(transactions);
@@ -434,6 +470,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         accountBalance,
         transactionCount,
         transactions,
+        unSellNFT,
       }}
     >
       {children}

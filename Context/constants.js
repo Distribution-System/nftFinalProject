@@ -9,5 +9,5 @@ export const NFTMarketplaceABI = nftMarketplace.abi;
 
 //TRANSFER FUNDS
 export const transferFundsAddress =
-  "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  "0xfE2238D0fcD68c0669e1616e56099F93B0525f5e";
 export const transferFundsABI = transferFunds.abi;
