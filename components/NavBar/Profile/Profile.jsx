@@ -57,12 +57,12 @@ const Profile = ({ currentAccount }) => {
               <Link href={{ pathname: "/contactus" }}>Help</Link>
             </p>
           </div>
-          <div className={Style.profile_menu_one_item}>
+          {/* <div className={Style.profile_menu_one_item}>
             <TbDownload />
             <p>
               <Link href={{ pathname: "/aboutus" }}>About Us</Link>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
