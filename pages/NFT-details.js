@@ -29,7 +29,6 @@ const NFTDetails = () => {
     <div>
       <NFTDetailsPage nft={nft} />
       <Category />
-      <Brand />
     </div>
   );
 };

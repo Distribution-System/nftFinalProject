@@ -74,8 +74,6 @@ const AuthorProfileCard = ({ currentAccount }) => {
             <input type="text" value={currentAccount} id="myInput" />
           </div>
 
-    
-
           <div className={Style.AuthorProfileCard_box_info_social}>
             <a href="#">
               <TiSocialFacebook />
