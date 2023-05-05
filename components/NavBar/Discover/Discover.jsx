@@ -35,10 +35,10 @@ const Discover = () => {
       name: "Connect Wallet",
       link: "connectWallet",
     },
-    // {
-    //   name: "Blog",
-    //   link: "blog",
-    // },
+    {
+      name: "TranferFunds",
+      link: "transfer Funds",
+    },
   ];
   return (
     <div>
