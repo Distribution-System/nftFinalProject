@@ -72,16 +72,9 @@ const AuthorProfileCard = ({ currentAccount }) => {
 
           <div className={Style.AuthorProfileCard_box_info_address}>
             <input type="text" value={currentAccount} id="myInput" />
-            <FiCopy
-              onClick={() => copyAddress()}
-              className={Style.AuthorProfileCard_box_info_address_icon}
-            />
           </div>
 
-          <p>
-            Punk #4786 / An OG Cryptopunk Collector, hoarder of NFTs.
-            Contributing to @ether_cards, an NFT Monetization Platform.
-          </p>
+    
 
           <div className={Style.AuthorProfileCard_box_info_social}>
             <a href="#">
