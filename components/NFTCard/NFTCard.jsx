@@ -57,7 +57,7 @@ const NFTCard = ({ NFTData }) => {
               <div className={Style.NFTCard_box_update_details_price}>
                 <div className={Style.NFTCard_box_update_details_price_box}>
                   <h4>
-                    {el.name}
+                    {el.name.slice(0,16)}
                   </h4>
 
                   <div
