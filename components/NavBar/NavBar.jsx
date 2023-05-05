@@ -89,12 +89,12 @@ const NavBar = () => {
           <div className={Style.logo}>
             <DiJqueryLogo onClick={() => router.push("/")} />
           </div>
-          <div className={Style.navbar_container_left_box_input}>
+          {/* <div className={Style.navbar_container_left_box_input}>
             <div className={Style.navbar_container_left_box_input_box}>
               <input type="text" placeholder="Search NFT" />
               <BsSearch onClick={() => {}} className={Style.search_icon} />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* //END OF LEFT SECTION */}
@@ -119,14 +119,14 @@ const NavBar = () => {
             )}
           </div> */}
 
-          {/* NOTIFICATION */}
+          {/* NOTIFICATION
           <div className={Style.navbar_container_right_notify}>
             <MdNotifications
               className={Style.notify}
               onClick={() => openNotification()}
             />
             {notification && <Notification />}
-          </div>
+          </div> */}
 
           {/* CREATE BUTTON SECTION */}
           <div className={Style.navbar_container_right_button}>
