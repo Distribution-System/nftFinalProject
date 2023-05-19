@@ -41,14 +41,6 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
       category: "Music",
     },
     {
-      image: images.nft_image_1,
-      category: "Digital",
-    },
-    {
-      image: images.nft_image_2,
-      category: "Time",
-    },
-    {
       image: images.nft_image_3,
       category: "Photography",
     },
