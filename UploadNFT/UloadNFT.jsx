@@ -68,7 +68,7 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
           <label htmlFor="nft">Item Name</label>
           <input
             type="text"
-            placeholder="shoaib bhai"
+            placeholder="Name"
             className={formStyle.Form_box_input_userName}
             onChange={(e) => setName(e.target.value)}
           />
@@ -87,12 +87,6 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
               onChange={(e) => setWebsite(e.target.value)}
             />
           </div>
-
-          <p className={Style.upload_box_input_para}>
-            Ciscrypt will include a link to this URL on this item's detail page,
-            so that users can click to learn more about it. You are welcome to
-            link to your own webpage with more details.
-          </p>
         </div>
 
         <div className={formStyle.Form_box_input}>
@@ -105,10 +99,6 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
             placeholder="something about yourself in few words"
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
-          <p>
-            The description will be included on the item's detail page
-            underneath its image. Markdown syntax is supported.
-          </p>
         </div>
 
         <div className={formStyle.Form_box_input}>
@@ -147,46 +137,6 @@ const UloadNFT = ({ uploadToIPFS, createNFT }) => {
         </div>
 
         <div className={formStyle.Form_box_input_social}>
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="Royalties">Royalties</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <FaPercent />
-              </div>
-              <input
-                type="text"
-                placeholder="20%"
-                onChange={(e) => setRoyalties(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="size">Size</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <MdOutlineAttachFile />
-              </div>
-              <input
-                type="text"
-                placeholder="165MB"
-                onChange={(e) => setFileSize(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="Propertie">Propertie</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <AiTwotonePropertySafety />
-              </div>
-              <input
-                type="text"
-                placeholder="Propertie"
-                onChange={(e) => setProperties(e.target.value)}
-              />
-            </div>
-          </div>
-
           <div className={formStyle.Form_box_input}>
             <label htmlFor="Price">Price</label>
             <div className={formStyle.Form_box_input_box}>
