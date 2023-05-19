@@ -45,7 +45,7 @@ const Home = () => {
         console.log("itemnft",nfts);
       });
     }
-  }, []);
+  }, [nfts]);
 
   //CREATOR LIST
 
